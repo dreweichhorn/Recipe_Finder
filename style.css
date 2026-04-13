@@ -1,10 +1,17 @@
+/* --- Global Reset --- */
+/* The '*' selects every element. We reset margins and padding to 0 
+   so the browser doesn't add accidental "default" spacing. */
 * {
     margin: 0;
     padding: 0;
+    /* 'border-box' ensures padding and borders are included in the width calculation, 
+       preventing elements from breaking the layout. */
     box-sizing: border-box;
 }
 
-/* Color Palette */
+/* --- Color Palette & Variables --- */
+/* Storing values in :root lets us change a color in ONE place and 
+   have it update everywhere in the app. Very efficient! */
 :root {
     --primary: #ff7e5f;
     --primary-dark: #eb5e41;
@@ -20,17 +27,19 @@
     --transition: all 0.3s ease;
 }
 
+/* --- Base Styles --- */
 body {
     font-family: sans-serif;
     background-color: var(--background-light);
     color: var(--text-dark);
-    line-height: 1.6;
+    line-height: 1.6; /* Adds breathing room between lines of text */
 }
 
+/* --- Layout Containers --- */
 .container {
     width: 100%;
-    max-width: 1000%;
-    margin: 0 auto;
+    max-width: 1200px; /* Limits how wide the app gets on giant monitors */
+    margin: 0 auto;    /* Centers the container on the screen */
     padding: 2rem 1rem;
 }
 
@@ -45,36 +54,24 @@ h1 {
     margin-bottom: .5rem;
 }
 
-h1 i {
-    margin-right: 10px;
-}
-
-header p {
-    color: var(--text-dark);
-    opacity: 0.7;
-}
-
+/* --- Search UI --- */
 .search-container {
-    display: flex;
-    margin-bottom: 2rem;
-    gap: 10px;
+    display: flex;     /* Aligns input and button side-by-side */
+    gap: 10px;         /* Adds even spacing between them */
     max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto 2rem auto;
 }
 
 input[type="text"] {
-    flex: 1;
+    flex: 1;           /* Makes the input grow to fill available space */
     padding: 10px 16px;
-    font-size: var(--border-radius);
     border: 1px solid #ddd;
-    background-color: var(--background);
-    color: var(--text-dark);
-    outline: none;
+    border-radius: var(--border-radius);
+    outline: none;     /* Removes the default blue focus ring */
 }
 
 input[type="text"]:focus {
-    border-color: var(--primary)
+    border-color: var(--primary); /* Highlights the box when you click it */
 }
 
 button {
@@ -83,25 +80,21 @@ button {
     border: none;
     border-radius: var(--border-radius);
     padding: 0 20px;
-    font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: var(--transition);
+    transition: var(--transition); /* Makes the hover effect smooth, not instant */
 }
 
 button:hover {
     background-color: var(--primary-dark);
 }
 
-#result-heading {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    font-size: 1.2rem;
-    color: var(--text-dark);
-}
-
-.meals-containter {
+/* --- Meals Grid --- */
+/* We use 'Grid' here to handle the recipe cards. */
+.meals-container {
     display: grid;
+    /* 'repeat(auto-fill)' automatically adds as many cards as fit in a row. 
+       'minmax(250px, 1fr)' ensures cards never get smaller than 250px. */
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 1.5rem;
 }
@@ -110,191 +103,82 @@ button:hover {
     background-color: var(--card-bg);
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
-    overflow: hidden;
+    overflow: hidden; /* Ensures the image doesn't "leak" out of rounded corners */
     transition: var(--transition);
     cursor: pointer;
-    position: relative;
 }
 
 .meal:hover {
-    transform: translateY(-5px);
+    transform: translateY(-5px); /* Lift effect on hover */
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
 
 .meal img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: 200px;      /* Fixed height keeps the grid uniform */
+    object-fit: cover;  /* Crops the image to fit without stretching it */
 }
 
 .meal-info {
-    padding: 1rem
+    padding: 1rem;
 }
 
-.meal-title {
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
-    color: var(--text-dark);
-}
-
-.meal-category {
-    display: inline-block;
-    background-color: var(--primary-light);
-    color: var(--text-dark);
-    padding: 3px 8px;
-    font-size: 0.8rem;
-    border-radius: 20px;
-    margin-bottom: 10px;
-}
-
-#meal-details {
-    background-color: var(--background);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow);
-    padding: 1.5rem;
-    margin: 2rem 0;
-}
-
-#back-btn {
-    margin-bottom: 1.5rem;
-    background-color: transparent;
-    color: var(--primary);
-    border: 1px solid var(--primary);
-    padding: 8px 16px;
-}
-
-#back-btn:hover {
-    background-color: var(--primary);
-    color: •white;
-}
-
+/* --- Recipe Details View --- */
 .meal-details-content {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center; /* Centers the recipe content */
 }
 
 .meal-details-img {
     width: 100%;
-    max-width: 400px;
+    max-width: 600px;
     border-radius: var(--border-radius);
     margin-bottom: 1.5rem;
-}
-
-
-.meal-details-title {
-    font-size: 1.8rem;
-    color: var(--primary);
-    margin-bottom: 0.5rem;
-    text-align: center;
-}
-
-.meal-details-category {
-    margin-bottom: 1rem;
-    text-align: center;
-}
-
-.meal-details-category span {
-    background-color: var(--primary-light);
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-}
-
-.meal-details-instructions {
-    line-height: 1.7;
-    margin-bottom: 1.5rem;
-}
-
-.meal-details-instructions h3 {
-    margin-bottom: 0.5rem;
 }
 
 .ingredients-list {
     list-style-type: none;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax (180px, Ifr));
-    gap: 8px;
-    margin-bottom: 1.5rem;
+    /* Two-column list for ingredients */
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 10px;
     width: 100%;
+    margin-top: 1rem;
 }
 
 .ingredients-list li {
-    display: flex;
-    align-items: center;
-    padding: 6px 10px;
-    background-color: var(--background-light);
-    border-radius: var(--border-radius);
-    font-size: 0.9rem;
-}
-
-.ingredients-list li i {
-    color: var(--secondary);
-    margin-right: 8px;
-}
-
-• youtube-link {
-    display: inline-block;
-    background-color: J#ff0000;
-    color: white;
-    padding: 8px 16px;
+    background-color: white;
+    padding: 10px;
     border-radius: 4px;
-    text-decoration: none;
-    font-weight: 600;
-    margin-top: 1rem;
     font-size: 0.9rem;
+    border-left: 4px solid var(--secondary); /* Green accent for ingredients */
 }
 
-.youtube-link i {
-    margin-right: 8px;
-}
-
-#error-container {
-    background-color: • rgba(255, 126, 95, 0.1);
-    border: 1px solid var(--primary);
-    color: var(--primary-dark);
-    padding: 1rem;
-    border-radius: var(--border-radius);
-    text-align: center;
-    margin-bottom: 1.5rem;
-}
-
-.api-link {
-    text-align: center;
-    padding-bottom: 1.5rem;
-    color: var(--text-dark);
-    opacity: 0.7;
-    font-size: 0.9rem;
-}
-
-.api-link a {
-    color: var(--primary);
-    text-decoration: none;
-}
-
+/* --- Utility Classes --- */
 .hidden {
-    display: none;
+    display: none; /* Used by JavaScript to toggle views */
 }
 
+.youtube-link {
+    display: inline-block;
+    margin-top: 2rem;
+    padding: 12px 24px;
+    background-color: #ff0000;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+/* --- Responsive Design (Mobile) --- */
+/* When the screen is smaller than 600px wide: */
 @media (max-width: 600px) {
     .search-container {
-        flex-direction: column;
-    }
-
-    button#search-btn {
-        width: 100%;
-        padding: 10px;
+        flex-direction: column; /* Stack input and button vertically */
     }
 
     .meals-container {
-        grid-template-columns: 1fr;
-    }
-
-    .meal-details-img {
-        max-width: 100%;
-    }
-
-    .ingredients-list {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* Only one card per row */
     }
 }
